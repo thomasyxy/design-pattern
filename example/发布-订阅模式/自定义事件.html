@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>自定义事件</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      var salesOffices = {};
+
+      // salesOffices.clientList = {};
+      //
+      // salesOffices.listen = function(key, fn){
+      //   if(!this.clientList[key]){
+      //     this.clientList[key] = [];
+      //   }
+      //   this.clientList[key].push(fn);
+      // };
+      //
+      // salesOffices.trigger = function(){
+      //   var key = Array.prototype.shift.call(arguments),
+      //       fns = this.clientList[key];
+      //
+      //   if(!fns || fns.length === 0){
+      //     return false;
+      //   }
+      //
+      //   for(var i = 0, fn; fn = fns[i++];){
+      //     fn.apply(this, arguments);
+      //   }
+      // };
+
+      //通用实现
+      var event = {
+        clientList: [],
+        listen: function(key, fn){
+          if(!this.clientList[key]){
+            this.clientList[key] = [];
+          }
+          this.clientList[key].push(fn);
+        },
+        trigger: function(){
+          var key = Array.prototype.shift.call(arguments),
+              fns = this.clientList[key];
+
+          if(!fns || fns.length === 0){
+            return false;
+          }
+
+          for(var i = 0, fn; fn = fns[i++]; ){
+            fn.apply(this, arguments);
+          }
+        },
+        //取消订阅的的事件
+        remove: function(key, fn){
+          var fns = this.clientList[key];
+          if(!fns){
+            return false
+          }
+          if(!fn){
+            fns && (fns.length = 0)
+          }else{
+            for(var l = fns.length - 1; l >= 0; l--){
+              var _fn = fns[l];
+              if(_fn === fn){
+                fns.splice(l, 1);
+              }
+            }
+          }
+        }
+      }
+
+      var installEvent = function(obj){
+        for(var i in event){
+          obj[i] = event[i];
+        }
+      }
+
+      installEvent(salesOffices);
+
+      salesOffices.listen('squareMeter88', fn1 = function(price){
+        console.log('价格1' + price);
+      });
+
+      salesOffices.listen('squareMeter88', fn2 = function(price){
+        console.log('价格2' + price);
+      });
+
+      salesOffices.remove('squareMeter88', fn1);
+      salesOffices.trigger('squareMeter88', 3000000);
+    </script>
+  </body>
+</html>

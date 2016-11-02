@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <button id="open">打开</button>
+    <button id="close">关闭</button>
+    <script type="text/javascript">
+      var TV = {
+        open: function(){
+          console.log("打开了");
+        },
+        close: function(){
+          console.log("关掉了");
+        }
+      }
+      // var OpenTvCommand = function(receiver){
+      //   this.receiver = receiver;
+      // }
+      // OpenTvCommand.prototype.execute = function(){
+      //   this.receiver.open();
+      // }
+      // OpenTvCommand.prototype.undo = function(){
+      //   this.receiver.close();
+      // }
+      var OpenTvCommand = function(receiver){
+        var execute = function(){
+          return receiver.open();
+        }
+        var undo = function(){
+          return receiver.close();
+        }
+        return {
+          execute: execute,
+          undo: undo
+        }
+      }
+      var setCommand = function(command){
+        document.getElementById('open').onclick = function(){
+          command.execute();
+        }
+        document.getElementById('close').onclick = function(){
+          command.undo();
+        }
+      }
+      setCommand(new OpenTvCommand(TV));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>实际开发中的责任链模式</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      // var order = function(orderType, pay, stock){
+      //   if(orderType === 1){
+      //     if(pay === true){
+      //       console.log('500元定金预购，获得100优惠券');
+      //     }else{
+      //       if(stock > 0){
+      //         console.log('普通购买，无优惠券');
+      //       }else{
+      //         console.log('手机库存不足');
+      //       }
+      //     }
+      //   }
+      //   else if(orderType === 2){
+      //     if(pay === true){
+      //       console.log('200元定金预购，获得50优惠券');
+      //     }else{
+      //       if(stock > 0){
+      //         console.log('普通购买，无优惠券');
+      //       }else{
+      //         console.log('手机库存不足');
+      //       }
+      //     }
+      //   }
+      //   else if(orderType === 3){
+      //     if(stock > 0){
+      //       console.log('普通购买，无优惠券');
+      //     }else{
+      //       console.log('手机库存不足');
+      //     }
+      //   }
+      // };
+      //
+      // order(1, true, 500);
+
+      //用责任链模式重构
+      var order500 = function(orderType, pay, stock){
+        if(orderType === 1 && pay === true){
+          console.log('500元定金预购，得到100优惠券');
+        }else{
+          order200(order, pay, stock);
+        }
+      }
+
+      var order200 = function(order, pay, stock){
+        if(orderType == 2 && pay === true){
+          console.log('200元定金预购，得到50优惠券');
+        }else{
+          orderNormal(orderType, pay,stock);
+        }
+      }
+
+      var orderNormal = function(orderType, pay, stock){
+        if(stock > 0){
+          console.log('普通购买，无优惠券');
+        }else{
+          console.log('手机库存不足');
+        }
+      }
+
+      order500(1, true, 500);
+    </script>
+  </body>
+</html>

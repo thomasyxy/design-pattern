@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>网站登录</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      $ajax('http://xxx.com?login', function(data){
+        login.trigger('loginSucc', data);
+      });
+
+      var header = (function(){
+        login.listen('loginSucc', function(data){
+          header.setAvatar(data.avatar);
+        });
+        return {
+          setAvatar: function(data){
+            console.log('设置header模块的头像');
+          }
+        }
+      })();
+
+      var nav = (function(){
+        login.listen('loginSucc', function(data){
+          nav.setAvatar(data.avatar);
+        });
+        return {
+          setAvatar: function(avatar){
+            console.log('设置nav模块的头像');
+          }
+        }
+      })();
+
+      var address = (function(){
+        login.listen('loginSucc', function(data){
+          address.refresh(obj);
+        });
+        return {
+          refresh: function(avatar){
+            console.log('刷新收货地址列表');
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>

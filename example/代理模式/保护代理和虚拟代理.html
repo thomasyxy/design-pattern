@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>保护代理和虚拟代理</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      //虚拟代理实现图片预加载
+      var myImage = (function(){
+        var imgNode = document.createElement('img');
+        document.body.appendChild(imgNode);
+
+        return {
+          setSrc: function(src){
+            imgNode.src = src;
+          }
+        }
+      })();
+
+      var proxyImage = (function(){
+        var img = new Image;
+        img.onload = function(){
+          myImage.setSrc(this.src);
+        }
+        return {
+          setSrc: function(src){
+            myImage.setSrc('http://www.uedsc.com/wp-content/uploads/2015/06/2013092022533958.gif');
+            img.src = src;
+          }
+        }
+      })();
+
+      proxyImage.setSrc('http://www.bz55.com/uploads/allimg/110901/1121101N9-4.jpg');
+    </script>
+  </body>
+</html>

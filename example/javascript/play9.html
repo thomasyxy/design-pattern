@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>分时函数</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      var arr = [];
+      for(var i = 1; i <= 1000; i++){
+        arr.push(i);
+      }
+      //分时前
+      // var renderFriendList = function(data){
+      //   for(var i = 0, l = data.length; i< l; i++){
+      //     var div = document.createElement('div');
+      //     div.innerHTML = i;
+      //     document.body.appendChild(div);
+      //   }
+      // }
+      //
+      // renderFriendList(arr);
+
+
+      //分时处理后
+      var timeChunk = function(arr, fn, count){
+        var obj,t;
+        var len = arr.length;
+        var start = function(){
+          for(var i = 0; i< Math.min(count || 1, arr.length); i++){
+            var obj = arr.shift();
+            fn(obj);
+          }
+        }
+
+        return function(){
+          t = setInterval(function(){
+            if(arr.length === 0){
+              return clearInterval(t);
+            }
+            start();
+          }, 200);
+        }
+      }
+
+      var renderFriendList = timeChunk(arr, function(n){
+        var div = document.createElement('div');
+        div.innerHTML = n;
+        document.body.appendChild(div);
+      }, 8);
+
+      renderFriendList()
+    </script>
+  </body>
+</html>
