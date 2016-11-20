@@ -6,10 +6,15 @@
   </head>
   <body>
     <script type="text/javascript">
-      var x = 10;
-      while(0<--x){
-        console.log(x);
+      var obj = {
+        a: 1,
+        b: 2,
+        c: {
+          d: 3,
+          e: 4
+        }
       }
+      var keys = Object.keys(obj);
     </script>
   </body>
 </html>
